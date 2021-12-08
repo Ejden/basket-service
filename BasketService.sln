@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketService", "BasketService\BasketService.csproj", "{CF68DF44-D70F-4490-887A-B7990319AE53}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF68DF44-D70F-4490-887A-B7990319AE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF68DF44-D70F-4490-887A-B7990319AE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF68DF44-D70F-4490-887A-B7990319AE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF68DF44-D70F-4490-887A-B7990319AE53}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
