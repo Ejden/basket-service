@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0X5eIQfTFwvGx7cFdDgX8G/hvzpoUT4azull4CpamHkFrszSk4FmYTiVmIiSzMNmiNu3FWfefNsMchS+YHc5gg==",
+  "dgSpecHash": "ziRl3xGwvQ0WBly+LeEyBum4PFNPuiloC8ATF/RbS2ACeGi4VPuv2exryKVR/ZZFurWhxGHzui/vMtHTzr4Crg==",
   "success": true,
   "projectFilePath": "C:\\Users\\adria\\RiderProjects\\BasketService\\BasketService\\BasketService.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,10 @@
     "C:\\Users\\adria\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
-    "C:\\Users\\adria\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+    "C:\\Users\\adria\\.nuget\\packages\\system.net.http.json\\6.0.0\\system.net.http.json.6.0.0.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

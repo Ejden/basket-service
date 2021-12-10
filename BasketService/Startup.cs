@@ -1,5 +1,9 @@
+using System.Net.Http;
 using BasketService.Domain.Basket;
 using BasketService.Domain.Order;
+using BasketService.Infrastructure.Api.Basket.Config;
+using BasketService.Infrastructure.Client;
+using BasketService.Infrastructure.Client.Product;
 using BasketService.Infrastructure.Db.Basket;
 using BasketService.Infrastructure.Db.Basket.Config;
 using BasketService.Infrastructure.Db.Basket.Model;
@@ -30,10 +34,13 @@ namespace BasketService
         {
             services.Configure<BasketDatabaseProperties>(Configuration.GetSection("BasketDatabase"));
             services.Configure<OrderDatabaseProperties>(Configuration.GetSection("OrderDatabase"));
+            services.Configure<ProductClientProperties>(Configuration.GetSection("ProductClient"));
+            services.AddHttpClient();
             services.AddSingleton<OrderModelMapper>();
-            services.AddSingleton<BasketModelMapper>();
+            services.AddSingleton<IUserProvider, FakeUserProvider>();
             services.AddSingleton<IBasketProvider, DatabaseBasketProvider>();
             services.AddSingleton<IOrderProvider, DatabaseOrderProvider>();
+            services.AddSingleton<IProductProvider, ProductClient>();
             services.AddSingleton<Domain.Basket.BasketService>();
             services.AddSingleton<OrderService>();
             services.AddControllers();

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BasketService.Domain.Basket;
 using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Db.Basket.Config;
@@ -11,34 +14,55 @@ namespace BasketService.Infrastructure.Db.Basket
     public class DatabaseBasketProvider : IBasketProvider
     {
         private readonly IMongoCollection<BasketDocument> _basketCollection;
-        private readonly BasketModelMapper _modelMapper;
 
-        public DatabaseBasketProvider(IOptions<BasketDatabaseProperties> props, BasketModelMapper modelMapper)
+        public DatabaseBasketProvider(IOptions<BasketDatabaseProperties> props)
         {
-            _modelMapper = modelMapper;
             var mongoClient = new MongoClient(props.Value.ConnectionString);
             var mongoDb = mongoClient.GetDatabase(props.Value.DatabaseName);
             _basketCollection = mongoDb.GetCollection<BasketDocument>(props.Value.CollectionName);
         }
 
-        public ICollection<Domain.Basket.Basket> GetAllBaskets()
+        public async Task<ICollection<Domain.Basket.Basket>> GetAllBaskets()
         {
-            throw new System.NotImplementedException();
+            var result = await _basketCollection
+                .FindAsync(_ => true);
+
+            return result.ToList().Select(BasketModelMapper.ToDomain).ToList();
         }
 
-        public Domain.Basket.Basket GetUserBasket(UserId userId)
+        public async Task<Domain.Basket.Basket> GetUserBasket(UserId userId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await _basketCollection
+                    .FindAsync(it => it.Buyer.Id == userId.Raw);
+
+                return BasketModelMapper.ToDomain(result.First());
+            }
+            catch (InvalidOperationException)
+            {
+                throw new BasketNotFoundException(userId);
+            }
         }
 
-        public Domain.Basket.Basket Create(Domain.Basket.Basket basket)
+        public async void DeleteUserBasket(UserId userId)
         {
-            throw new System.NotImplementedException();
+            await _basketCollection.DeleteOneAsync(it => it.Buyer.Id == userId.Raw);
         }
 
-        public Domain.Basket.Basket Update(Domain.Basket.Basket basket)
+        public async Task<Domain.Basket.Basket> Create(Domain.Basket.Basket basket)
         {
-            throw new System.NotImplementedException();
+            await _basketCollection.InsertOneAsync(BasketModelMapper.ToDocument(basket));
+            return await GetUserBasket(basket.Buyer.UserId);
+        }
+
+        public async Task<Domain.Basket.Basket> Update(Domain.Basket.Basket basket)
+        {
+            await _basketCollection.ReplaceOneAsync(
+                it => it.Id == basket.Id.Raw, 
+                BasketModelMapper.ToDocument(basket)
+            );
+            return await GetUserBasket(basket.Buyer.UserId);
         }
     }
 }
