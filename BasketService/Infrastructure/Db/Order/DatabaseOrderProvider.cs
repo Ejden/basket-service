@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BasketService.Domain.Order;
 using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Db.Order.Config;
@@ -12,34 +14,41 @@ namespace BasketService.Infrastructure.Db.Order
     {
         private readonly IMongoCollection<OrderDocument> _orderCollection;
         
-        private readonly OrderModelMapper _modelMapper;
-
-        public DatabaseOrderProvider(IOptions<OrderDatabaseProperties> props, OrderModelMapper modelMapper)
+        public DatabaseOrderProvider(IOptions<OrderDatabaseProperties> props)
         {
-            _modelMapper = modelMapper;
             var mongoClient = new MongoClient(props.Value.ConnectionString);
             var mongoDb = mongoClient.GetDatabase(props.Value.DatabaseName);
             _orderCollection = mongoDb.GetCollection<OrderDocument>(props.Value.CollectionName);
         }
 
-        public ICollection<Domain.Order.Order> GetAllOrders()
+        public async Task<ICollection<Domain.Order.Order>> GetAllOrders()
         {
-            throw new System.NotImplementedException();
+            var result = await _orderCollection
+                .FindAsync(_ => true);
+
+            return result.ToList().Select(OrderModelMapper.ToDomain).ToList();
         }
 
-        public ICollection<Domain.Order.Order> GetAllUserOrders(UserId userId)
+        public async Task<ICollection<Domain.Order.Order>> GetAllUserOrders(UserId userId)
         {
-            throw new System.NotImplementedException();
+            var result = await _orderCollection
+                .FindAsync(it => it.BuyerId == userId.Raw);
+
+            return result.ToList().Select(OrderModelMapper.ToDomain).ToList();
         }
 
-        public Domain.Order.Order GetOrder(OrderId orderId)
+        public async Task<Domain.Order.Order> GetOrder(OrderId orderId)
         {
-            throw new System.NotImplementedException();
+            var result = await _orderCollection
+                .FindAsync(it => it.Id == orderId.Raw);
+
+            return OrderModelMapper.ToDomain(result.First());
         }
 
-        public Domain.Order.Order Insert(Domain.Order.Order order)
+        public async Task<Domain.Order.Order> CreateOrder(Domain.Order.Order order)
         {
-            throw new System.NotImplementedException();
+            await _orderCollection.InsertOneAsync(OrderModelMapper.ToDocument(order));
+            return await GetOrder(order.Id);
         }
     }
 }

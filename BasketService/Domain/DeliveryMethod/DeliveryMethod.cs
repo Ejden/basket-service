@@ -4,27 +4,27 @@ namespace BasketService.Domain.DeliveryMethod
 {
     public class DeliveryMethod
     {
-        public readonly DeliveryMethodId _id;
+        public readonly DeliveryMethodId Id;
 
-        public readonly string _name;
+        public readonly string Name;
 
-        public readonly Money _cost;
+        public readonly Money Cost;
 
         public DeliveryMethod(DeliveryMethodId id, string name, Money cost)
         {
-            _id = id;
-            _name = name;
-            _cost = cost;
+            Id = id;
+            Name = name;
+            Cost = cost;
         }
 
         public DeliveryMethod UpdateName(string name)
         {
-            return new DeliveryMethod(_id, name, _cost);
+            return new DeliveryMethod(Id, name, Cost);
         }
 
         public DeliveryMethod UpdateCost(Money cost)
         {
-            return new DeliveryMethod(_id, _name, cost);
+            return new DeliveryMethod(Id, Name, cost);
         }
     }
 }

@@ -18,9 +18,9 @@ namespace BasketService.Infrastructure.Db.DeliveryMethod.Model
         public static DeliveryMethodDocument ToDocument(Domain.DeliveryMethod.DeliveryMethod deliveryMethod)
         {
             return new DeliveryMethodDocument(
-                deliveryMethod._id.Raw ?? Guid.NewGuid().ToString(),
-                deliveryMethod._name,
-                MoneyDocument.FromDomain(deliveryMethod._cost)
+                deliveryMethod.Id.Raw ?? Guid.NewGuid().ToString(),
+                deliveryMethod.Name,
+                MoneyDocument.FromDomain(deliveryMethod.Cost)
             );
         }
     }

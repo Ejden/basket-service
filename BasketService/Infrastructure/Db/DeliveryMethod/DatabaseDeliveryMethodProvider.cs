@@ -57,11 +57,11 @@ namespace BasketService.Infrastructure.Db.DeliveryMethod
         {
             await _deliveryMethodCollection
                 .ReplaceOneAsync(
-                    it => it.Id == deliveryMethod._id.Raw,
+                    it => it.Id == deliveryMethod.Id.Raw,
                     DeliveryMethodModelMapper.ToDocument(deliveryMethod)
                 );
 
-            return await GetDeliveryMethod(deliveryMethod._id);
+            return await GetDeliveryMethod(deliveryMethod.Id);
         }
 
         public async Task DeleteDeliveryMethod(DeliveryMethodId id)

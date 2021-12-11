@@ -1,4 +1,4 @@
-﻿namespace BasketService.Domain.Shared
+﻿namespace BasketService.Domain.Order
 {
     public record OrderId(string Raw)
     {

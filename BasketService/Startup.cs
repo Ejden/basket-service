@@ -43,7 +43,6 @@ namespace BasketService
             
             // Http client
             services.AddHttpClient();
-            services.AddSingleton<OrderModelMapper>();
             
             // Data providers
             services.AddSingleton<IUserProvider, UserClient>();
