@@ -1,6 +1,6 @@
-﻿namespace BasketService.Infrastructure.Api.Basket.Config
+﻿namespace BasketService.Infrastructure.Client.Shared.Config
 {
-    public class ProductClientProperties
+    public abstract record ClientProperties
     {
         public string ServiceUrl { get; set; }
         

@@ -1,9 +1,6 @@
-﻿namespace BasketService.Infrastructure.Client.User.Config
+﻿using BasketService.Infrastructure.Client.Shared.Config;
+
+namespace BasketService.Infrastructure.Client.User.Config
 {
-    public class UserClientProperties
-    {
-        public string ServiceUrl { get; set; }
-        
-        public string ServicePort { get; set; }
-    }
+    public record UserClientProperties : ClientProperties;
 }

@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using BasketService.Domain.Basket;
 using BasketService.Domain.Shared;
-using BasketService.Infrastructure.Api.Basket.Config;
+using BasketService.Infrastructure.Client.Product.Config;
 using BasketService.Infrastructure.Client.Product.Model;
 using BasketService.Infrastructure.Client.Shared;
 using Microsoft.Extensions.Options;

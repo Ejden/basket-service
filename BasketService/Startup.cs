@@ -1,8 +1,8 @@
 using BasketService.Domain.Basket;
 using BasketService.Domain.DeliveryMethod;
 using BasketService.Domain.Order;
-using BasketService.Infrastructure.Api.Basket.Config;
 using BasketService.Infrastructure.Client.Product;
+using BasketService.Infrastructure.Client.Product.Config;
 using BasketService.Infrastructure.Client.User;
 using BasketService.Infrastructure.Client.User.Config;
 using BasketService.Infrastructure.Db.Basket;
@@ -11,7 +11,6 @@ using BasketService.Infrastructure.Db.DeliveryMethod;
 using BasketService.Infrastructure.Db.DeliveryMethod.Config;
 using BasketService.Infrastructure.Db.Order;
 using BasketService.Infrastructure.Db.Order.Config;
-using BasketService.Infrastructure.Db.Order.Model;
 using BasketService.Infrastructure.ExceptionHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
