@@ -27,9 +27,9 @@ namespace BasketService.Domain.Basket
             }
             catch (BasketNotFoundException)
             {
-                var user = _userProvider.GetUser(userId);  // Just to check that user exists
+                var user = await _userProvider.GetUser(userId);  // Just to check that user exists
                 var newEmptyBasket = BasketFactory.CreateBasketWithoutItems(userId);
-                return await _basketProvider.Create(newEmptyBasket);
+                return await _basketProvider.CreateBasket(newEmptyBasket);
             }
         }
 
@@ -47,7 +47,7 @@ namespace BasketService.Domain.Basket
             var basket = await GetUserBasket(userId);
             var updatedBasket = basket.AddItem(new Item(productToAdd.Id, productToAdd.Price, request.Quantity));
 
-            return await _basketProvider.Update(updatedBasket);
+            return await _basketProvider.UpdateBasket(updatedBasket);
         }
 
         public async Task<Basket> ModifyItemInBasket(
@@ -63,14 +63,14 @@ namespace BasketService.Domain.Basket
                 .ChangeQuantity(request.Quantity);
             var updatedBasket = basketToUpdate.ReplaceItem(productId, updatedItem);
             
-            return await _basketProvider.Update(updatedBasket);
+            return await _basketProvider.UpdateBasket(updatedBasket);
         }
 
         public async Task<Basket> RemoveItemFromBasket(UserId userId, ProductId productId)
         {
             var basketToUpdate = await GetUserBasket(userId);
             var updatedBasket = basketToUpdate.RemoveItemFromBasket(productId);
-            return await _basketProvider.Update(updatedBasket);
+            return await _basketProvider.UpdateBasket(updatedBasket);
         }
     }
 }

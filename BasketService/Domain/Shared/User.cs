@@ -2,11 +2,14 @@
 {
     public class User
     {
-        public UserId Id;
+        public UserId Id { get; }
+        
+        public bool IsFreeDeliveryActive { get; } 
 
-        public User(UserId id)
+        public User(UserId id, bool isFreeDeliveryActive)
         {
             Id = id;
+            IsFreeDeliveryActive = isFreeDeliveryActive;
         }
     }
 }

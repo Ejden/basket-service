@@ -1,6 +1,6 @@
-﻿using BasketService.Infrastructure.Db.Config;
+﻿using BasketService.Infrastructure.Db.Shared.Config;
 
 namespace BasketService.Infrastructure.Db.Order.Config
 {
-    public class OrderDatabaseProperties : DatabaseProperties {}
+    public record OrderDatabaseProperties : DatabaseProperties;
 }

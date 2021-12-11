@@ -1,12 +1,14 @@
-using System.Net.Http;
 using BasketService.Domain.Basket;
+using BasketService.Domain.DeliveryMethod;
 using BasketService.Domain.Order;
 using BasketService.Infrastructure.Api.Basket.Config;
-using BasketService.Infrastructure.Client;
 using BasketService.Infrastructure.Client.Product;
+using BasketService.Infrastructure.Client.User;
+using BasketService.Infrastructure.Client.User.Config;
 using BasketService.Infrastructure.Db.Basket;
 using BasketService.Infrastructure.Db.Basket.Config;
-using BasketService.Infrastructure.Db.Basket.Model;
+using BasketService.Infrastructure.Db.DeliveryMethod;
+using BasketService.Infrastructure.Db.DeliveryMethod.Config;
 using BasketService.Infrastructure.Db.Order;
 using BasketService.Infrastructure.Db.Order.Config;
 using BasketService.Infrastructure.Db.Order.Model;
@@ -32,17 +34,30 @@ namespace BasketService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configs
             services.Configure<BasketDatabaseProperties>(Configuration.GetSection("BasketDatabase"));
             services.Configure<OrderDatabaseProperties>(Configuration.GetSection("OrderDatabase"));
+            services.Configure<DeliveryMethodDatabaseProperties>(Configuration.GetSection("DeliveryMethodDatabase"));
             services.Configure<ProductClientProperties>(Configuration.GetSection("ProductClient"));
+            services.Configure<UserClientProperties>(Configuration.GetSection("UserClient"));
+            
+            // Http client
             services.AddHttpClient();
             services.AddSingleton<OrderModelMapper>();
-            services.AddSingleton<IUserProvider, FakeUserProvider>();
+            
+            // Data providers
+            services.AddSingleton<IUserProvider, UserClient>();
+            services.AddSingleton<IProductProvider, ProductClient>();
+            services.AddSingleton<IDeliveryMethodProvider, DatabaseDeliveryMethodProvider>();
             services.AddSingleton<IBasketProvider, DatabaseBasketProvider>();
             services.AddSingleton<IOrderProvider, DatabaseOrderProvider>();
-            services.AddSingleton<IProductProvider, ProductClient>();
+            
+            // Services
             services.AddSingleton<Domain.Basket.BasketService>();
+            services.AddSingleton<DeliveryMethodService>();
             services.AddSingleton<OrderService>();
+            
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

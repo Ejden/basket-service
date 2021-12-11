@@ -50,13 +50,13 @@ namespace BasketService.Infrastructure.Db.Basket
             await _basketCollection.DeleteOneAsync(it => it.Buyer.Id == userId.Raw);
         }
 
-        public async Task<Domain.Basket.Basket> Create(Domain.Basket.Basket basket)
+        public async Task<Domain.Basket.Basket> CreateBasket(Domain.Basket.Basket basket)
         {
             await _basketCollection.InsertOneAsync(BasketModelMapper.ToDocument(basket));
             return await GetUserBasket(basket.Buyer.UserId);
         }
 
-        public async Task<Domain.Basket.Basket> Update(Domain.Basket.Basket basket)
+        public async Task<Domain.Basket.Basket> UpdateBasket(Domain.Basket.Basket basket)
         {
             await _basketCollection.ReplaceOneAsync(
                 it => it.Id == basket.Id.Raw, 

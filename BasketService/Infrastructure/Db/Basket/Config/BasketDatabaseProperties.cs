@@ -1,11 +1,6 @@
-﻿namespace BasketService.Infrastructure.Db.Basket.Config
+﻿using BasketService.Infrastructure.Db.Shared.Config;
+
+namespace BasketService.Infrastructure.Db.Basket.Config
 {
-    public class BasketDatabaseProperties
-    {
-        public string ConnectionString { get; set; }
-        
-        public string DatabaseName { get; set; }
-        
-        public string CollectionName { get; set; }
-    }
+    public record BasketDatabaseProperties : DatabaseProperties;
 }

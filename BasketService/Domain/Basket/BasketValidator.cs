@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Api.Basket.Request;
 
 namespace BasketService.Domain.Basket
@@ -44,10 +44,5 @@ namespace BasketService.Domain.Basket
                 throw new ValidationException("Not enough product quantity");
             }
         }
-    }
-
-    public class ValidationException : Exception
-    {
-        public ValidationException(string message) : base(message) { }
     }
 }

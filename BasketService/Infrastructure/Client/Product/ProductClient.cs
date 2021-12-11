@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -7,8 +6,8 @@ using BasketService.Domain.Basket;
 using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Api.Basket.Config;
 using BasketService.Infrastructure.Client.Product.Model;
+using BasketService.Infrastructure.Client.Shared;
 using Microsoft.Extensions.Options;
-using ApplicationException = System.ApplicationException;
 
 namespace BasketService.Infrastructure.Client.Product
 {
@@ -29,6 +28,7 @@ namespace BasketService.Infrastructure.Client.Product
         public async Task<Domain.Basket.Product> GetProduct(ProductId productId)
         {
             var response = await _client.GetAsync(BuildGetProductUri(productId));
+            
             if (response.IsSuccessStatusCode)
             {
                 return response.Content.ReadFromJsonAsync<ProductResponse>().Result?.ToDomain() ??
@@ -49,7 +49,7 @@ namespace BasketService.Infrastructure.Client.Product
         }
     }
 
-    public class ProductServiceException : Exception
+    public class ProductServiceException : ExternalServiceException
     {
         public ProductServiceException(string message) : base(message) { }
     }

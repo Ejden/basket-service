@@ -22,12 +22,12 @@ namespace BasketService.Infrastructure.Db.Basket
             throw new System.NotImplementedException();
         }
 
-        public Task<Domain.Basket.Basket> Create(Domain.Basket.Basket basket)
+        public Task<Domain.Basket.Basket> CreateBasket(Domain.Basket.Basket basket)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Domain.Basket.Basket> Update(Domain.Basket.Basket basket)
+        public Task<Domain.Basket.Basket> UpdateBasket(Domain.Basket.Basket basket)
         {
             throw new System.NotImplementedException();
         }

@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using BasketService.Domain.Basket;
-using BasketService.Domain.Order;
 using BasketService.Domain.Shared;
-using BasketService.Infrastructure.Client.Product;
+using BasketService.Infrastructure.Client.Shared;
 using Microsoft.AspNetCore.Http;
+using ValidationException = BasketService.Domain.Shared.ValidationException;
 
 namespace BasketService.Infrastructure.ExceptionHandlers
 {
@@ -27,7 +26,11 @@ namespace BasketService.Infrastructure.ExceptionHandlers
             {
                 await HandleExceptionAsync(httpContext, cause);
             }
-            catch (ProductServiceException cause)
+            catch (ExternalServiceException cause)
+            {
+                await HandleExceptionAsync(httpContext, cause);
+            }
+            catch (ValidationException cause)
             {
                 await HandleExceptionAsync(httpContext, cause);
             }
@@ -41,10 +44,18 @@ namespace BasketService.Infrastructure.ExceptionHandlers
             return context.Response.WriteAsync(new ErrorDetails(cause.Message).ToJson());
         }
         
-        private Task HandleExceptionAsync(HttpContext context, ProductServiceException cause)
+        private Task HandleExceptionAsync(HttpContext context, ExternalServiceException cause)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.ServiceUnavailable;
+
+            return context.Response.WriteAsync(new ErrorDetails(cause.Message).ToJson());
+        }
+        
+        private Task HandleExceptionAsync(HttpContext context, ValidationException cause)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
 
             return context.Response.WriteAsync(new ErrorDetails(cause.Message).ToJson());
         }

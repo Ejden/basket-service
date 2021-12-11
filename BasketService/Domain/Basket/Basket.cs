@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using BasketService.Domain.Shared;
+using BasketService.Infrastructure.Utils;
 
 namespace BasketService.Domain.Basket
 {
@@ -25,7 +26,7 @@ namespace BasketService.Domain.Basket
 
         private Money CalculateTotalItemsCost()
         {
-            return Items.Aggregate(Money.Zero(Currency.PLN), (money, item) => money + (item.Price * item.Quantity));
+            return Items.Aggregate(0m.Pln(), (money, item) => money + (item.Price * item.Quantity));
         }
 
         public Basket AddItem(Item item)

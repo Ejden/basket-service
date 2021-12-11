@@ -12,8 +12,8 @@ namespace BasketService.Domain.Basket
 
         public void DeleteUserBasket(UserId userId);
 
-        public Task<Basket> Create(Basket basket);
+        public Task<Basket> CreateBasket(Basket basket);
 
-        public Task<Basket> Update(Basket basket);
+        public Task<Basket> UpdateBasket(Basket basket);
     }
 }
