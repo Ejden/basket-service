@@ -10,7 +10,7 @@ namespace BasketService.Domain.Basket
 
         public Task<Basket> GetUserBasket(UserId userId);
 
-        public void DeleteUserBasket(UserId userId);
+        public Task DeleteUserBasket(UserId userId);
 
         public Task<Basket> CreateBasket(Basket basket);
 

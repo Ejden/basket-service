@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BasketService.Domain.Order;
@@ -39,10 +40,17 @@ namespace BasketService.Infrastructure.Db.Order
 
         public async Task<Domain.Order.Order> GetOrder(OrderId orderId)
         {
-            var result = await _orderCollection
-                .FindAsync(it => it.Id == orderId.Raw);
+            try
+            {
+                var result = await _orderCollection
+                    .FindAsync(it => it.Id == orderId.Raw);
 
-            return OrderModelMapper.ToDomain(result.First());
+                return OrderModelMapper.ToDomain(result.First());
+            }
+            catch (InvalidOperationException)
+            {
+                throw new OrderNotFoundException(orderId);
+            }
         }
 
         public async Task<Domain.Order.Order> CreateOrder(Domain.Order.Order order)

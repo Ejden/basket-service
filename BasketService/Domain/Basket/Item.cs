@@ -4,11 +4,11 @@ namespace BasketService.Domain.Basket
 {
     public class Item
     {
-        public ProductId ProductId { get; }
+        public readonly ProductId ProductId;
 
-        public Money Price { get; }
+        public readonly Money Price;
 
-        public int Quantity { get; }
+        public readonly int Quantity;
 
         public Item(ProductId productId, Money price, int quantity)
         {

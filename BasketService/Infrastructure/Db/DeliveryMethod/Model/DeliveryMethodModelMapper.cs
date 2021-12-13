@@ -11,7 +11,8 @@ namespace BasketService.Infrastructure.Db.DeliveryMethod.Model
             return new Domain.DeliveryMethod.DeliveryMethod(
                 DeliveryMethodId.Of(deliveryMethod.Id),
                 deliveryMethod.Name,
-                deliveryMethod.Cost.ToDomain()
+                deliveryMethod.Cost.ToDomain(),
+                deliveryMethod.PickupMethod
             );
         }
 
@@ -20,7 +21,8 @@ namespace BasketService.Infrastructure.Db.DeliveryMethod.Model
             return new DeliveryMethodDocument(
                 deliveryMethod.Id.Raw ?? Guid.NewGuid().ToString(),
                 deliveryMethod.Name,
-                MoneyDocument.FromDomain(deliveryMethod.Cost)
+                MoneyDocument.FromDomain(deliveryMethod.Cost),
+                deliveryMethod.PickupMethod
             );
         }
     }

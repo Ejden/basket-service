@@ -10,21 +10,24 @@ namespace BasketService.Domain.DeliveryMethod
 
         public readonly Money Cost;
 
-        public DeliveryMethod(DeliveryMethodId id, string name, Money cost)
+        public readonly bool PickupMethod;
+
+        public DeliveryMethod(DeliveryMethodId id, string name, Money cost, bool pickupMethod)
         {
             Id = id;
             Name = name;
             Cost = cost;
+            PickupMethod = pickupMethod;
         }
 
         public DeliveryMethod UpdateName(string name)
         {
-            return new DeliveryMethod(Id, name, Cost);
+            return new DeliveryMethod(Id, name, Cost, PickupMethod);
         }
 
         public DeliveryMethod UpdateCost(Money cost)
         {
-            return new DeliveryMethod(Id, Name, cost);
+            return new DeliveryMethod(Id, Name, cost, PickupMethod);
         }
     }
 }

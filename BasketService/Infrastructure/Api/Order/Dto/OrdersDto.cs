@@ -1,4 +1,6 @@
-﻿namespace BasketService.Infrastructure.Api.Order.Dto
+﻿using System.Collections.Immutable;
+
+namespace BasketService.Infrastructure.Api.Order.Dto
 {
-    public record OrdersDto();
+    public record OrdersDto(ImmutableList<DetailedOrderDto> Orders);
 }

@@ -1,4 +1,5 @@
 ﻿using BasketService.Domain.DeliveryMethod;
+using BasketService.Domain.Shared;
 
 namespace BasketService.Domain.Order
 {
@@ -8,10 +9,13 @@ namespace BasketService.Domain.Order
         
         public readonly string Address;
 
-        public OrderDelivery(DeliveryMethodId deliveryMethodId, string address)
+        public readonly Money Cost;
+
+        public OrderDelivery(DeliveryMethodId deliveryMethodId, string address, Money cost)
         {
             DeliveryMethodId = deliveryMethodId;
             Address = address;
+            Cost = cost;
         }
     }
 }

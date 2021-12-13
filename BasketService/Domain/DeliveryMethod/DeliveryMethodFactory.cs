@@ -10,7 +10,8 @@ namespace BasketService.Domain.DeliveryMethod
             return new DeliveryMethod(
                 DeliveryMethodId.Of(Guid.NewGuid().ToString()),
                 request.Name,
-                request.Cost.ToDomain()
+                request.Cost.ToDomain(),
+                request.PickupMethod
             );
         }
     }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BasketService.Domain.Shared;
+using BasketService.Infrastructure.Api.Basket.Request;
 
 namespace BasketService.Domain.Order
 {
@@ -9,29 +9,40 @@ namespace BasketService.Domain.Order
     {
         private readonly IOrderProvider _orderProvider;
 
-        public OrderService(IOrderProvider orderProvider)
+        private readonly OrderFactory _orderFactory;
+
+        public OrderService(IOrderProvider orderProvider, OrderFactory orderFactory)
         {
             _orderProvider = orderProvider;
+            _orderFactory = orderFactory;
         }
 
-        public async Task<ICollection<Order>> GetAllOrders()
+        public async Task<ICollection<DetailedOrder.DetailedOrder>> GetAllOrders()
         {
-            return await _orderProvider.GetAllOrders();
+            var orders = await _orderProvider.GetAllOrders();
+            return await _orderFactory.ToDetailedOrders(orders);
         }
 
-        public async Task<ICollection<Order>> GetAllUserOrders(UserId userId)
+        public async Task<ICollection<DetailedOrder.DetailedOrder>> GetAllUserOrders(UserId userId)
         {
-            return await _orderProvider.GetAllUserOrders(userId);
+            var orders = await _orderProvider.GetAllUserOrders(userId);
+            return await _orderFactory.ToDetailedOrders(orders);
         }
 
-        public async Task<Order> GetOrder(OrderId orderId)
+        public async Task<DetailedOrder.DetailedOrder> GetOrder(OrderId orderId)
         {
-            return await _orderProvider.GetOrder(orderId);
+            var order = await _orderProvider.GetOrder(orderId);
+            return await _orderFactory.ToDetailedOrder(order);
         }
 
-        public async Task<Order> CreateOrder(Order order)
+        public async Task<DetailedOrder.DetailedOrder> CreateOrder(
+            UserId userId, 
+            CheckoutBasketRequest request, 
+            Basket.Basket basket)
         {
-            throw new NotImplementedException();
+            var order = await _orderFactory.CreateOrder(userId, request, basket);
+            var createdOrder = await _orderProvider.CreateOrder(order);
+            return await _orderFactory.ToDetailedOrder(createdOrder);
         }
     }
 }

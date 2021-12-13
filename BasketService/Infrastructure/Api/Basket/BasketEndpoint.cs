@@ -2,6 +2,7 @@
 using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Api.Basket.Dto;
 using BasketService.Infrastructure.Api.Basket.Request;
+using BasketService.Infrastructure.Api.Order.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasketService.Infrastructure.Api.Basket
@@ -28,6 +29,12 @@ namespace BasketService.Infrastructure.Api.Basket
         public async Task<IActionResult> ClearUserBasket(string userId)
         {
             return Ok(BasketDtoMapper.ToDto(await _basketService.ClearUserBasket(UserId.Of(userId))));
+        }
+
+        [HttpPost("users/{userId}/basket/checkout")]
+        public async Task<IActionResult> Checkout(string userId, [FromBody] CheckoutBasketRequest request)
+        {
+            return Ok(OrderDtoMapper.ToDto(await _basketService.Checkout(UserId.Of(userId), request)));
         }
 
         [HttpPost]

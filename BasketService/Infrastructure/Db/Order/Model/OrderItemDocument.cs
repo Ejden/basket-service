@@ -1,5 +1,4 @@
-﻿using BasketService.Domain.Shared;
-using BasketService.Infrastructure.Db.Shared;
+﻿using BasketService.Infrastructure.Db.Shared;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BasketService.Infrastructure.Db.Order.Model
@@ -7,16 +6,18 @@ namespace BasketService.Infrastructure.Db.Order.Model
     public class OrderItemDocument
     {
         [BsonElement("productId")]
-        public readonly string ProductId;
+        public string ProductId { get; set; }
 
         [BsonElement("quantity")]
-        public readonly int Quantity;
+        public int Quantity { get; set; }
 
         [BsonElement("singleItemCost")]
-        public readonly MoneyDocument SingleItemCost;
+        public MoneyDocument SingleItemCost { get; set; }
 
         [BsonElement("totalCost")]
-        public readonly MoneyDocument TotalCost;
+        public MoneyDocument TotalCost { get; set; }
+
+        public OrderItemDocument() { }
 
         public OrderItemDocument(string productId, int quantity, MoneyDocument singleItemCost, MoneyDocument totalCost)
         {

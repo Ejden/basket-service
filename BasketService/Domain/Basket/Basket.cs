@@ -8,13 +8,13 @@ namespace BasketService.Domain.Basket
 {
     public class Basket
     {
-        public BasketId Id { get; }
-        
-        public User Buyer { get; }
-        
-        public IImmutableList<Item> Items { get; }
-        
-        public Money TotalItemsCost { get; }
+        public readonly BasketId Id;
+
+        public readonly User Buyer;
+
+        public readonly IImmutableList<Item> Items;
+
+        public readonly Money TotalItemsCost;
 
         public Basket(BasketId basketId, UserId userId, ImmutableList<Item> items)
         {

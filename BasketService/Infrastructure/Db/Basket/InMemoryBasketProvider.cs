@@ -12,7 +12,7 @@ namespace BasketService.Infrastructure.Db.Basket
             throw new System.NotImplementedException();
         }
 
-        public void DeleteUserBasket(UserId userId)
+        public Task DeleteUserBasket(UserId userId)
         {
             throw new System.NotImplementedException();
         }

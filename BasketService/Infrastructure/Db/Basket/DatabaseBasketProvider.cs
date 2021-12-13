@@ -45,7 +45,7 @@ namespace BasketService.Infrastructure.Db.Basket
             }
         }
 
-        public async void DeleteUserBasket(UserId userId)
+        public async Task DeleteUserBasket(UserId userId)
         {
             await _basketCollection.DeleteOneAsync(it => it.Buyer.Id == userId.Raw);
         }

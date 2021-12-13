@@ -2,9 +2,9 @@
 {
     public class User
     {
-        public UserId Id { get; }
-        
-        public bool IsFreeDeliveryActive { get; } 
+        public readonly UserId Id;
+
+        public readonly bool IsFreeDeliveryActive;
 
         public User(UserId id, bool isFreeDeliveryActive)
         {

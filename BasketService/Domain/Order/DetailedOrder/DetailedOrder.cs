@@ -2,9 +2,9 @@
 using System.Collections.Immutable;
 using BasketService.Domain.Shared;
 
-namespace BasketService.Domain.Order
+namespace BasketService.Domain.Order.DetailedOrder
 {
-    public class Order
+    public class DetailedOrder
     {
         public readonly OrderId Id;
 
@@ -12,18 +12,18 @@ namespace BasketService.Domain.Order
 
         public readonly DateTime OrderTimestamp;
 
-        public readonly ImmutableList<OrderItem> Items;
+        public readonly ImmutableList<DetailedOrderItem> Items;
 
-        public readonly OrderDelivery Delivery;
+        public readonly DetailedOrderDelivery Delivery;
 
         public readonly Money TotalCost;
-        
-        public Order(
+
+        public DetailedOrder(
             OrderId id, 
             Buyer buyer, 
             DateTime orderTimestamp, 
-            ImmutableList<OrderItem> items, 
-            OrderDelivery delivery,
+            ImmutableList<DetailedOrderItem> items, 
+            DetailedOrderDelivery delivery, 
             Money totalCost)
         {
             Id = id;

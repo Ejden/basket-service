@@ -49,8 +49,9 @@ namespace BasketService
             services.AddSingleton<IDeliveryMethodProvider, DatabaseDeliveryMethodProvider>();
             services.AddSingleton<IBasketProvider, DatabaseBasketProvider>();
             services.AddSingleton<IOrderProvider, DatabaseOrderProvider>();
-            
+
             // Services
+            services.AddSingleton<OrderFactory>();
             services.AddSingleton<Domain.Basket.BasketService>();
             services.AddSingleton<DeliveryMethodService>();
             services.AddSingleton<OrderService>();

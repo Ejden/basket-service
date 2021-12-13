@@ -2,5 +2,5 @@
 
 namespace BasketService.Infrastructure.Api.DeliveryMethod.Dto
 {
-    public record DeliveryMethodDto(string Id, string Name, MoneyDto Cost);
+    public record DeliveryMethodDto(string Id, string Name, MoneyDto Cost, bool PickupMethod);
 }

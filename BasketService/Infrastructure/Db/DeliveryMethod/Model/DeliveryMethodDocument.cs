@@ -16,14 +16,18 @@ namespace BasketService.Infrastructure.Db.DeliveryMethod.Model
 
         [BsonElement("cost")] 
         public MoneyDocument Cost { get; set; }
+        
+        [BsonElement("pickupMethod")]
+        public bool PickupMethod { get; set; }
 
         public DeliveryMethodDocument() { }
 
-        public DeliveryMethodDocument(string id, string name, MoneyDocument cost)
+        public DeliveryMethodDocument(string id, string name, MoneyDocument cost, bool pickupMethod)
         {
             Id = id;
             Name = name;
             Cost = cost;
+            PickupMethod = pickupMethod;
         }
     }
 }

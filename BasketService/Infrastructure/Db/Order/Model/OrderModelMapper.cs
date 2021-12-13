@@ -15,8 +15,10 @@ namespace BasketService.Infrastructure.Db.Order.Model
             return new Domain.Order.Order(
                 OrderId.Of(order.Id),
                 new Buyer(UserId.Of(order.BuyerId)),
+                order.OrderTimestamp,
                 order.Items.Select(ToDomain).ToImmutableList(),
-                ToDomain(order.Delivery)
+                ToDomain(order.Delivery),
+                order.TotalCost.ToDomain()
             );
         }
 
@@ -34,7 +36,8 @@ namespace BasketService.Infrastructure.Db.Order.Model
         {
             return new OrderDelivery(
                 DeliveryMethodId.Of(delivery.DeliveryMethodId),
-                delivery.Address
+                delivery.Address,
+                delivery.Cost.ToDomain()
             );
         }
 
@@ -43,8 +46,10 @@ namespace BasketService.Infrastructure.Db.Order.Model
             return new OrderDocument(
                 order.Id.Raw,
                 order.Buyer.Id.Raw,
-                order.Items.Select(ToDocument).ToImmutableList(),
-                ToDocument(order.Delivery)
+                order.OrderTimestamp,
+                order.Items.Select(ToDocument).ToList(),
+                ToDocument(order.Delivery),
+                MoneyDocument.FromDomain(order.TotalCost)
             );
         }
 
@@ -62,7 +67,8 @@ namespace BasketService.Infrastructure.Db.Order.Model
         {
             return new OrderDeliveryDocument(
                 delivery.DeliveryMethodId.Raw,
-                delivery.Address
+                delivery.Address,
+                MoneyDocument.FromDomain(delivery.Cost)
             );
         }
     }

@@ -1,19 +1,26 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using BasketService.Infrastructure.Db.Shared;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace BasketService.Infrastructure.Db.Order.Model
 {
     public class OrderDeliveryDocument
     {
         [BsonElement("deliveryMethodId")]
-        public readonly string DeliveryMethodId;
+        public string DeliveryMethodId { get; set; }
 
         [BsonElement("address")]
-        public readonly string Address;
+        public string Address { get; set; }
 
-        public OrderDeliveryDocument(string deliveryMethodId, string address)
+        [BsonElement("cost")] 
+        public MoneyDocument Cost { get; set; }
+
+        public OrderDeliveryDocument() { }
+
+        public OrderDeliveryDocument(string deliveryMethodId, string address, MoneyDocument cost)
         {
             DeliveryMethodId = deliveryMethodId;
             Address = address;
+            Cost = cost;
         }
     }
 }

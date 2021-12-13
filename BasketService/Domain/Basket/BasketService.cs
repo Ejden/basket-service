@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using BasketService.Domain.Order;
+using BasketService.Domain.Order.DetailedOrder;
 using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Api.Basket.Request;
 
@@ -12,11 +14,18 @@ namespace BasketService.Domain.Basket
 
         private readonly IProductProvider _productProvider;
 
-        public BasketService(IBasketProvider basketProvider, IUserProvider userProvider, IProductProvider productProvider)
+        private readonly OrderService _orderService;
+
+        public BasketService(
+            IBasketProvider basketProvider, 
+            IUserProvider userProvider, 
+            IProductProvider productProvider,
+            OrderService orderService)
         {
             _basketProvider = basketProvider;
             _userProvider = userProvider;
             _productProvider = productProvider;
+            _orderService = orderService;
         }
 
         public async Task<Basket> GetUserBasket(UserId userId)
@@ -33,9 +42,16 @@ namespace BasketService.Domain.Basket
             }
         }
 
+        public async Task<DetailedOrder> Checkout(UserId userId, CheckoutBasketRequest request)
+        {
+            var order = await _orderService.CreateOrder(userId, request, await _basketProvider.GetUserBasket(userId));
+            await _basketProvider.DeleteUserBasket(userId);
+            return order;
+        }
+
         public async Task<Basket> ClearUserBasket(UserId userId)
         {
-            _basketProvider.DeleteUserBasket(userId);
+            await _basketProvider.DeleteUserBasket(userId);
             return await GetUserBasket(userId);
         }
 

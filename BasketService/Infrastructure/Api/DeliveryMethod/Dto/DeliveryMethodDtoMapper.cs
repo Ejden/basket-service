@@ -9,7 +9,8 @@ namespace BasketService.Infrastructure.Api.DeliveryMethod.Dto
             return new DeliveryMethodDto(
                 deliveryMethod.Id.Raw, 
                 deliveryMethod.Name, 
-                MoneyDto.FromDomain(deliveryMethod.Cost)
+                MoneyDto.FromDomain(deliveryMethod.Cost),
+                deliveryMethod.PickupMethod
             );
         }
     }

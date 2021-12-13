@@ -2,5 +2,5 @@
 
 namespace BasketService.Infrastructure.Api.DeliveryMethod.Request
 {
-    public record CreateDeliveryMethodRequest(string Name, MoneyDto Cost);
+    public record CreateDeliveryMethodRequest(string Name, MoneyDto Cost, bool PickupMethod);
 }
