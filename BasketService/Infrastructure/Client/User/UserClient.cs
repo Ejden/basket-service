@@ -28,28 +28,25 @@ namespace BasketService.Infrastructure.Client.User
 
         public async Task<Domain.Shared.User> GetUser(UserId userId)
         {
-            HttpResponseMessage response = null;
             try
             {
-                response = await _client.GetAsync(BuildGetUserUri(userId));
+                var response = await _client.GetAsync(BuildGetUserUri(userId));
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    return response.Content.ReadFromJsonAsync<UserResponse>().Result?.ToDomain()
-                           ?? throw new UserNotFoundException(userId);
-                }
-            }
-            catch (HttpRequestException exception)
-            {
-                if (exception.StatusCode == HttpStatusCode.NotFound)
-                {
-                    throw new UserNotFoundException(userId);
+                    var content = await response.Content.ReadFromJsonAsync<UserResponse>();
+                    return content?.ToDomain() ?? throw new UserNotFoundException(userId);
                 }
 
-                if (exception.StatusCode == HttpStatusCode.BadRequest)
+                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
                 {
                     throw new UserNotFoundException(userId);
                 }
+            }
+            catch (HttpRequestException)
+            {
+                throw new UserServiceException("External service exception");
+
             }
 
             throw new UserServiceException("External service exception");
