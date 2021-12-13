@@ -46,7 +46,7 @@ namespace BasketService.Infrastructure.Client.User
                     throw new UserNotFoundException(userId);
                 }
 
-                if (response.StatusCode == HttpStatusCode.BadRequest)
+                if (exception.StatusCode == HttpStatusCode.BadRequest)
                 {
                     throw new UserNotFoundException(userId);
                 }

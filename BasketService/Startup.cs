@@ -76,7 +76,7 @@ namespace BasketService
 
             app.ConfigureCustomExceptionMiddleware();
             
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
