@@ -17,10 +17,12 @@
             return Raw;
         }
 
+        #nullable enable
         public virtual bool Equals(DeliveryMethodId? other)
         {
             if (other == null) return false;
             return Raw == other.Raw;
         }
+        #nullable disable
     }
 }

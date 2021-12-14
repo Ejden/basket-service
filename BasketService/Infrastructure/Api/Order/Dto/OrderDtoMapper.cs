@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using BasketService.Domain.Order;
 using BasketService.Domain.Order.DetailedOrder;
+using BasketService.Domain.Shared;
 using BasketService.Infrastructure.Api.Shared;
 
 namespace BasketService.Infrastructure.Api.Order.Dto
@@ -39,10 +40,22 @@ namespace BasketService.Infrastructure.Api.Order.Dto
 
         private static DetailedDeliveryDto ToDto(DetailedOrderDelivery delivery)
         {
-            return new DetailedDeliveryDto(
-                new DetailedDeliveryMethodDto(delivery.DeliveryMethod.Id.Raw, delivery.DeliveryMethod.Name),
-                delivery.Address
-            );
+            return delivery switch
+            {
+                DetailedAddressOrderDelivery addressDelivery => new DetailedDeliveryDto(
+                    DeliveryMethod: new DetailedDeliveryMethodDto(addressDelivery.DeliveryMethod.Id.Raw,
+                        addressDelivery.DeliveryMethod.Name),
+                    Address: addressDelivery.Address,
+                    PickupPoint: null
+                ),
+                DetailedPickupPointOrderDelivery pickupDelivery => new DetailedDeliveryDto(
+                    DeliveryMethod: new DetailedDeliveryMethodDto(pickupDelivery.DeliveryMethod.Id.Raw,
+                        pickupDelivery.DeliveryMethod.Name),
+                    PickupPoint: pickupDelivery.PickupPoint,
+                    Address: null
+                ),
+                _ => throw new ServiceException("Service error")
+            };
         }
         
         public static OrdersDto ToDto(ICollection<DetailedOrder> orders)

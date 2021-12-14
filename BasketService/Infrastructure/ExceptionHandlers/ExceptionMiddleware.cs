@@ -34,6 +34,10 @@ namespace BasketService.Infrastructure.ExceptionHandlers
             {
                 await HandleExceptionAsync(httpContext, cause);
             }
+            catch (ServiceException cause)
+            {
+                await HandleExceptionAsync(httpContext, cause);
+            }
         }
         
         private Task HandleExceptionAsync(HttpContext context, NotFoundException cause)
@@ -53,6 +57,14 @@ namespace BasketService.Infrastructure.ExceptionHandlers
         }
         
         private Task HandleExceptionAsync(HttpContext context, ValidationException cause)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+
+            return context.Response.WriteAsync(new ErrorDetails(cause.Message).ToJson());
+        }
+        
+        private Task HandleExceptionAsync(HttpContext context, ServiceException cause)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.BadRequest;

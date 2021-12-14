@@ -62,12 +62,30 @@ namespace BasketService.Domain.Order
                     it.Price, 
                     it.Price * it.Quantity)
                 ).ToImmutableList(),
-                new OrderDelivery(
-                    deliveryMethod.Id, 
+                CreateDelivery(
+                    deliveryMethod, 
                     request.DeliveryAddress, 
-                    CalculateDeliveryCost(user, deliveryMethod)
+                    user
                 ),
                 CalculateTotalCost(user, deliveryMethod, basket)
+            );
+        }
+
+        private OrderDelivery CreateDelivery(DeliveryMethod.DeliveryMethod deliveryMethod, string address, User user)
+        {
+            if (deliveryMethod.PickupMethod)
+            {
+                return new PickupPointOrderDelivery(
+                    deliveryMethod.Id,
+                    address,
+                    CalculateDeliveryCost(user, deliveryMethod)
+                );
+            }
+
+            return new AddressOrderDelivery(
+                deliveryMethod.Id,
+                address,
+                CalculateDeliveryCost(user, deliveryMethod)
             );
         }
 
@@ -107,13 +125,28 @@ namespace BasketService.Domain.Order
                 order.Buyer,
                 order.OrderTimestamp,
                 order.Items.Select(it => ToDetailed(it, products)).ToImmutableList(),
-                new DetailedOrderDelivery(
-                    new DetailedDeliveryMethod(deliveryMethod.Id, deliveryMethod.Name),
-                    order.Delivery.Address,
-                    order.Delivery.Cost
+                CreateDetailedDelivery(
+                    deliveryMethod,
+                    order.Delivery
                 ),
                 order.TotalCost
             );
+        }
+
+        private DetailedOrderDelivery CreateDetailedDelivery(
+            DeliveryMethod.DeliveryMethod deliveryMethod, 
+            OrderDelivery orderDelivery)
+        {
+            return orderDelivery switch
+            {
+                AddressOrderDelivery addressOrderDelivery => new DetailedAddressOrderDelivery(
+                    new DetailedDeliveryMethod(addressOrderDelivery.DeliveryMethodId, deliveryMethod.Name),
+                    addressOrderDelivery.Address, addressOrderDelivery.Cost),
+                PickupPointOrderDelivery pickupPointOrderDelivery => new DetailedPickupPointOrderDelivery(
+                    new DetailedDeliveryMethod(pickupPointOrderDelivery.DeliveryMethodId, deliveryMethod.Name),
+                    pickupPointOrderDelivery.PickupPoint, pickupPointOrderDelivery.Cost),
+                _ => throw new ServiceException("Service error")
+            };
         }
 
         private DetailedOrderItem ToDetailed(OrderItem item, Product[] products)

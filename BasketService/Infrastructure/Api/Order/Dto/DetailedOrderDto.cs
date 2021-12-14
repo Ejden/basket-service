@@ -25,7 +25,9 @@ namespace BasketService.Infrastructure.Api.Order.Dto
 
     public record DetailedDeliveryDto(
         DetailedDeliveryMethodDto DeliveryMethod,
+        string PickupPoint,
         string Address
+
     );
 
     public record DetailedDeliveryMethodDto(

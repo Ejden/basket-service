@@ -34,7 +34,16 @@ namespace BasketService.Infrastructure.Db.Order.Model
 
         private static OrderDelivery ToDomain(OrderDeliveryDocument delivery)
         {
-            return new OrderDelivery(
+            if (delivery.PickupDelivery)
+            {
+                return new PickupPointOrderDelivery(
+                    DeliveryMethodId.Of(delivery.DeliveryMethodId),
+                    delivery.PickupPoint,
+                    delivery.Cost.ToDomain()
+                );
+            }
+
+            return new AddressOrderDelivery(
                 DeliveryMethodId.Of(delivery.DeliveryMethodId),
                 delivery.Address,
                 delivery.Cost.ToDomain()
@@ -65,11 +74,24 @@ namespace BasketService.Infrastructure.Db.Order.Model
 
         private static OrderDeliveryDocument ToDocument(OrderDelivery delivery)
         {
-            return new OrderDeliveryDocument(
-                delivery.DeliveryMethodId.Raw,
-                delivery.Address,
-                MoneyDocument.FromDomain(delivery.Cost)
-            );
+            return delivery switch
+            {
+                AddressOrderDelivery addressOrderDelivery => new OrderDeliveryDocument(
+                    deliveryMethodId: addressOrderDelivery.DeliveryMethodId.Raw,
+                    address: addressOrderDelivery.Address,
+                    pickupPoint: null,
+                    cost: MoneyDocument.FromDomain(addressOrderDelivery.Cost),
+                    pickupDelivery: false
+                ),
+                PickupPointOrderDelivery pickupPointOrderDelivery => new OrderDeliveryDocument(
+                    deliveryMethodId: pickupPointOrderDelivery.DeliveryMethodId.Raw,
+                    address: null,
+                    pickupPoint: pickupPointOrderDelivery.PickupPoint,
+                    cost: MoneyDocument.FromDomain(pickupPointOrderDelivery.Cost),
+                    pickupDelivery: true
+                ),
+                _ => throw new ServiceException("Service error")
+            };
         }
     }
 }
