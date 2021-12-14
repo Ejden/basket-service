@@ -17,15 +17,13 @@ namespace BasketService.Infrastructure.Api.Basket
             _basketService = basketService;
         }
 
-        [HttpGet]
-        [Route("users/{userId}/basket")]
+        [HttpGet("users/{userId}/basket")]
         public async Task<IActionResult> GetUserBasket(string userId)
         {
             return Ok(BasketDtoMapper.ToDto(await _basketService.GetUserBasket(UserId.Of(userId))));
         }
 
-        [HttpDelete]
-        [Route("users/{userId}/basket")]
+        [HttpDelete("users/{userId}/basket")]
         public async Task<IActionResult> ClearUserBasket(string userId)
         {
             return Ok(BasketDtoMapper.ToDto(await _basketService.ClearUserBasket(UserId.Of(userId))));
@@ -37,15 +35,13 @@ namespace BasketService.Infrastructure.Api.Basket
             return Ok(OrderDtoMapper.ToDto(await _basketService.Checkout(UserId.Of(userId), request)));
         }
 
-        [HttpPost]
-        [Route("users/{userId}/basket/items")]
+        [HttpPost("users/{userId}/basket/items")]
         public async Task<IActionResult> AddItemToBasket(string userId, [FromBody] AddItemToBasketRequest request)
         {
             return Ok(BasketDtoMapper.ToDto(await _basketService.AddItemToBasket(UserId.Of(userId), request)));
         }
 
-        [HttpPost]
-        [Route("users/{userId}/basket/items/{productId}")]
+        [HttpPost("users/{userId}/basket/items/{productId}")]
         public async Task<IActionResult> ModifyItemInBasket(
             string userId, 
             string productId,
@@ -57,8 +53,7 @@ namespace BasketService.Infrastructure.Api.Basket
             );
         }
 
-        [HttpDelete]
-        [Route("users/{userId}/basket/items/{productId}")]
+        [HttpDelete("users/{userId}/basket/items/{productId}")]
         public async Task<IActionResult> RemoveItemFromBasket(string userId, string productId)
         {
             return Ok(BasketDtoMapper.ToDto(

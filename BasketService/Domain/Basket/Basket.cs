@@ -15,7 +15,12 @@ namespace BasketService.Domain.Basket
         public readonly IImmutableList<Item> Items;
 
         public readonly Money TotalItemsCost;
-
+        
+        private readonly Func<ProductId, ProductId, bool> _equalsIdsPredicate = delegate(ProductId arg1, ProductId arg2)
+        {
+            return arg1 == arg2;
+        };
+        
         public Basket(BasketId basketId, UserId userId, ImmutableList<Item> items)
         {
             Id = basketId;
@@ -33,12 +38,12 @@ namespace BasketService.Domain.Basket
         {
             try
             {
-                var itemToUpdate = Items.First(it => it.ProductId.Raw == item.ProductId.Raw);
+                var itemToUpdate = Items.First(it => _equalsIdsPredicate(it.ProductId, item.ProductId));
                 var updatedItem = itemToUpdate.ChangeQuantity(item.Quantity + itemToUpdate.Quantity);
                 return new Basket(
                     Id, 
                     Buyer.UserId, 
-                    Items.Where(it => it.ProductId.Raw != item.ProductId.Raw).ToImmutableList().Add(updatedItem)
+                    Items.Where(it => it.ProductId != item.ProductId).ToImmutableList().Add(updatedItem)
                 );
             }
             catch (InvalidOperationException)
@@ -49,7 +54,7 @@ namespace BasketService.Domain.Basket
 
         public Basket ReplaceItem(ProductId productId, Item item)
         {
-            var itemToUpdate = Items.First(it => it.ProductId.Raw == productId.Raw);
+            var itemToUpdate = Items.First(it => it.ProductId == productId);
             return new Basket(
                 Id,
                 Buyer.UserId,
@@ -62,7 +67,7 @@ namespace BasketService.Domain.Basket
             return new Basket(
                 Id,
                 Buyer.UserId,
-                Items.Where(it => it.ProductId.Raw != productId.Raw).ToImmutableList()
+                Items.Where(it => it.ProductId != productId).ToImmutableList()
             );
         }
 
@@ -70,7 +75,7 @@ namespace BasketService.Domain.Basket
         {
             try
             {
-                return Items.First(it => it.ProductId.Raw == productId.Raw);
+                return Items.First(it => it.ProductId == productId);
             }
             catch (InvalidOperationException)
             {

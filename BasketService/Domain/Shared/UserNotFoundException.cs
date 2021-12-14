@@ -2,6 +2,6 @@
 {
     public class UserNotFoundException : NotFoundException
     {
-        public UserNotFoundException(UserId userId) : base($"User with id {userId.Raw} not found") { }
+        public UserNotFoundException(UserId userId) : base($"User with id {userId} not found") { }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using BasketService.Domain.Basket;
 using BasketService.Domain.DeliveryMethod;
@@ -22,7 +23,7 @@ namespace BasketService.Domain.Order
         private readonly IUserProvider _userProvider;
 
         private readonly Regex _pickupCodeRegex = new Regex("^[A-Z]{3}[0-9]{4}$");
-
+        
         public OrderFactory(
             IProductProvider productProvider, 
             IDeliveryMethodProvider deliveryMethodProvider, 
@@ -69,7 +70,7 @@ namespace BasketService.Domain.Order
                 CalculateTotalCost(user, deliveryMethod, basket)
             );
         }
-        
+
         private Money CalculateTotalCost(User user, DeliveryMethod.DeliveryMethod deliveryMethod, Basket.Basket basket)
         {
             return CalculateDeliveryCost(user, deliveryMethod) + CalculateTotalProductsCost(basket);

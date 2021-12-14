@@ -14,7 +14,6 @@ namespace BasketService.Domain.Order
         public OrderDelivery(DeliveryMethodId deliveryMethodId, string address, Money cost)
         {
             DeliveryMethodId = deliveryMethodId;
-            Address = address;
             Cost = cost;
         }
     }

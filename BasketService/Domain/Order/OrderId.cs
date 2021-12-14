@@ -6,5 +6,21 @@
         {
             return new OrderId(raw);
         }
+        
+        public override int GetHashCode()
+        {
+            return Raw.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Raw;
+        }
+
+        public virtual bool Equals(OrderId? other)
+        {
+            if (other == null) return false;
+            return Raw == other.Raw;
+        }
     }
 }
