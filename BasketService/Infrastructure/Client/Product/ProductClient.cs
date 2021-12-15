@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -86,7 +87,7 @@ namespace BasketService.Infrastructure.Client.Product
         
         private string BuildGetProductUri(ProductId productId, DateTime version)
         {
-            return $"{_serviceUrl}/{GET_PRODUCT_PATH}/{productId.Raw}?version={version}";
+            return $"{_serviceUrl}/{GET_PRODUCT_PATH}/{productId.Raw}?version={version.ToString("O", CultureInfo.InvariantCulture)}";
         }
 
         private string BuildDecreaseProductStockUri(ProductId productId)
