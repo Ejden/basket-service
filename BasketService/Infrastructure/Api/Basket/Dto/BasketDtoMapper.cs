@@ -2,6 +2,7 @@
 using System.Linq;
 using BasketService.Domain.Basket;
 using BasketService.Domain.Shared;
+using BasketService.Infrastructure.Db.Shared;
 
 namespace BasketService.Infrastructure.Api.Basket.Dto
 {
@@ -19,7 +20,12 @@ namespace BasketService.Infrastructure.Api.Basket.Dto
 
         private static ItemDto ToDto(Item item)
         {
-            return new ItemDto(item.ProductId.Raw, item.Quantity);
+            return new ItemDto(
+                item.ProductId.Raw, 
+                MoneyDocument.FromDomain(item.Price), 
+                item.Quantity,
+                MoneyDocument.FromDomain(item.Price * item.Quantity)
+            );
         }
 
         private static MoneyDto ToDto(Money money)
@@ -39,7 +45,13 @@ namespace BasketService.Infrastructure.Api.Basket.Dto
         
         private static DetailedItemDto ToDto(DetailedItem item)
         {
-            return new DetailedItemDto(item.ProductId.Raw, item.Name, item.Quantity);
+            return new DetailedItemDto(
+                item.ProductId.Raw,
+                item.Name,
+                MoneyDocument.FromDomain(item.Price),
+                item.Quantity,
+                MoneyDocument.FromDomain(item.Price * item.Quantity)
+            );
         }
     }
 }

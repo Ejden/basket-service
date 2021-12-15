@@ -1,8 +1,12 @@
-﻿namespace BasketService.Infrastructure.Api.Basket.Dto
+﻿using BasketService.Infrastructure.Db.Shared;
+
+namespace BasketService.Infrastructure.Api.Basket.Dto
 {
     public record DetailedItemDto(
         string ProductId,
         string Name,
-        int Quantity
+        MoneyDocument SingleItemPrice, 
+        int Quantity,
+        MoneyDocument TotalPrice
     );
 }
