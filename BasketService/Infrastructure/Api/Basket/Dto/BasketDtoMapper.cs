@@ -26,5 +26,20 @@ namespace BasketService.Infrastructure.Api.Basket.Dto
         {
             return new MoneyDto(money.Amount, money.Currency.ToString());
         }
+
+        public static DetailedBasketDto ToDto(Domain.Basket.DetailedBasket basket)
+        {
+            return new DetailedBasketDto(
+                basket.Id.Raw,
+                new UserDto(basket.Buyer.UserId.Raw),
+                basket.Items.Select(ToDto).ToImmutableList(),
+                ToDto(basket.TotalItemsCost)
+            );
+        }
+        
+        private static DetailedItemDto ToDto(DetailedItem item)
+        {
+            return new DetailedItemDto(item.ProductId.Raw, item.Name, item.Quantity);
+        }
     }
 }

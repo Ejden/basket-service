@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using BasketService.Domain.Shared;
@@ -81,6 +82,21 @@ namespace BasketService.Domain.Basket
             {
                 throw new ItemNotFoundException(productId);
             }
+        }
+
+        public DetailedBasket ToDetailed(ICollection<Product> products)
+        {
+            return new DetailedBasket(
+                Id,
+                Buyer,
+                Items.Select(it => new DetailedItem(
+                    it.ProductId, 
+                    it.Price, 
+                    it.Quantity, 
+                    products.First(product => product.Id == it.ProductId).Name
+                )).ToImmutableList(),
+                TotalItemsCost
+            );
         }
 
         public class User
